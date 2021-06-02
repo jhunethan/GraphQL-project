@@ -1,0 +1,80 @@
+.homepage {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: grid;
+  background-color: #0f202d;
+  color: rgb(180, 180, 180);
+}
+
+* {
+  user-select: none;
+}
+
+.homepage-header {
+  width: 100vw;
+  padding: 20px 0;
+  background-color: #222;
+  border: 1px solid black;
+  margin: 0;
+}
+
+.homepage-body {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-interface {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary{
+  padding: 50px 0 10px 0;
+}
+
+.query-preview {
+  background-color: #222;
+
+  border-radius: 2px;
+  padding: 10px 10px 80px 10px;
+}
+
+.query-preview-code {
+  user-select: text;
+  font-size: 20px;
+  color: white;
+  width: 100%;
+  text-align: left;
+  padding-left: 25%;
+}
+
+.query-preview-code.second {
+  padding-left: 30%;
+}
+
+.query-preview-code.third {
+  padding-left: 40%;
+}
+
+.listOfCountries {
+  overflow-y: auto;
+  height: 90vh;
+  padding: 20px;
+  width: 50%;
+}
+
+.country-card {
+  user-select: none;
+  background-color: #222;
+  padding: 10px;
+  margin: 20px 20px 20px 0;
+  border-radius: 2px;
+  filter: drop-shadow(2px 2px 3px rgb(20, 20, 20));
+  transition: all 0.3s;
+}
+
+.country-card:hover {
+  background-color: rgb(59, 59, 59);
+}
