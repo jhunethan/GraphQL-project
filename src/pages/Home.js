@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
 import "../css/Home.css";
 
-
-
 export default function Home() {
-  const [queryContents] = useState(["name", "capital", "currency","languages { name }"])
+  const [queryContents] = useState([
+    "name",
+    "capital",
+    "currency",
+    "languages { name }",
+  ]);
   // name\ncapital\ncurrency\nlanguages{\nname\n}
 
   const defaultQuery = `{
     countries {
-      ${queryContents.map((element)=>{return `${element}\n`})}
+      ${queryContents.map((element) => {
+        return `${element}\n`;
+      })}
     }
   }`;
   const QUERY_LIST_OF_COUNTRIES = gql`
     ${defaultQuery}
   `;
 
-  const [invokeQuery ,{ data, loading, error }] = useLazyQuery(QUERY_LIST_OF_COUNTRIES);
+  const [invokeQuery, { data, loading, error }] = useLazyQuery(
+    QUERY_LIST_OF_COUNTRIES
+  );
 
   return (
     <div className="homepage">
@@ -34,8 +41,10 @@ export default function Home() {
               data
             </p>
           </div>
-          <button className="executeQuery" onClick={()=>invokeQuery()}>Execute Query</button>
           <div className="query-preview">
+            <button className="executeQuery" onClick={() => invokeQuery()}>
+              Execute Query
+            </button>
             <h2>GraphQL Query Preview</h2>
             <div className="query-preview-code first">{"{"}</div>
             <div className="query-preview-code second">countries {"{"}</div>
