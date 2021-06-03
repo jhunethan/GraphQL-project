@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
-import { Link } from "react-router-dom";
 import "../css/Home.css";
 
 
 
 export default function Home() {
-  const [queryContents, setQueryContents] = useState(["name", "capital", "currency","languages { name }"])
+  const [queryContents] = useState(["name", "capital", "currency","languages { name }"])
   // name\ncapital\ncurrency\nlanguages{\nname\n}
 
   const defaultQuery = `{
@@ -23,7 +22,6 @@ export default function Home() {
   return (
     <div className="homepage">
       <h1 className="homepage-header">Apollo Client/ GraphQL Demo</h1>
-      <Link to="/search">Search for a country</Link>
       <div className="homepage-body">
         <div className="user-interface">
           <div className="summary">
