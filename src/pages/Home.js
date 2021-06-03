@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useLazyQuery, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
 import "../css/Home.css";
 
@@ -18,7 +18,8 @@ export default function Home() {
     ${defaultQuery}
   `;
 
-  const { data, loading, error } = useQuery(QUERY_LIST_OF_COUNTRIES);
+  const [invokeQuery ,{ data, loading, error }] = useLazyQuery(QUERY_LIST_OF_COUNTRIES);
+
   return (
     <div className="homepage">
       <h1 className="homepage-header">Apollo Client/ GraphQL Demo</h1>
@@ -35,6 +36,7 @@ export default function Home() {
               data
             </p>
           </div>
+          <button className="executeQuery" onClick={()=>invokeQuery()}>Execute Query</button>
           <div className="query-preview">
             <h2>GraphQL Query Preview</h2>
             <div className="query-preview-code first">{"{"}</div>
