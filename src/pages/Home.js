@@ -1,25 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
 import "../css/Home.css";
 
-const defaultQuery = `{
-  countries {
-    name
-    capital
-    currency
-    languages{
-      name
-    }
-  }
-}`;
-const QUERY_LIST_OF_COUNTRIES = gql`
-  ${defaultQuery}
-`;
+
 
 export default function Home() {
+  const [queryContents, setQueryContents] = useState(["name", "capital", "currency","languages { name }"])
+  // name\ncapital\ncurrency\nlanguages{\nname\n}
+
+  const defaultQuery = `{
+    countries {
+      ${queryContents.map((element)=>{return `${element}\n`})}
+    }
+  }`;
+  const QUERY_LIST_OF_COUNTRIES = gql`
+    ${defaultQuery}
+  `;
+
   const { data, loading, error } = useQuery(QUERY_LIST_OF_COUNTRIES);
-  const queryContents = ["name", "capital", "currency","languages { name }"];
   return (
     <div className="homepage">
       <h1 className="homepage-header">Apollo Client/ GraphQL Demo</h1>
