@@ -2,22 +2,34 @@ import React, { useState } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
 import "../css/Home.css";
 
-
-
 export default function Home() {
-  const [queryContents] = useState(["name", "capital", "currency","languages { name }"])
+  const [mainQuery, setMainQuery] = useState("countries");
+  const [queryContents] = useState([
+    "name",
+    "capital",
+    "currency",
+    "languages { name }",
+  ]);
   // name\ncapital\ncurrency\nlanguages{\nname\n}
 
   const defaultQuery = `{
-    countries {
-      ${queryContents.map((element)=>{return `${element}\n`})}
+    ${mainQuery} {
+      ${queryContents.map((element) => {
+        return `${element}\n`;
+      })}
     }
   }`;
   const QUERY_LIST_OF_COUNTRIES = gql`
     ${defaultQuery}
   `;
 
-  const [invokeQuery ,{ data, loading, error }] = useLazyQuery(QUERY_LIST_OF_COUNTRIES);
+  const [invokeQuery, { data, loading, error }] = useLazyQuery(
+    QUERY_LIST_OF_COUNTRIES
+  );
+
+  setTimeout(() => {
+    invokeQuery();
+  }, 500);
 
   return (
     <div className="homepage">
@@ -34,34 +46,51 @@ export default function Home() {
               data
             </p>
           </div>
-          <button className="executeQuery" onClick={()=>invokeQuery()}>Execute Query</button>
+          <button className="executeQuery" onClick={() => invokeQuery()}>
+            Execute Query
+          </button>
+          <div className="mainQuery">
+            <button
+              onClick={() => {
+                setMainQuery("countries");
+              }}
+            >
+              Countries
+            </button>
+            <button
+              onClick={() => {
+                setMainQuery("languages");
+              }}
+            >
+              Languages
+            </button>
+            <button
+              onClick={() => {
+                setMainQuery("continents");
+              }}
+            >
+              Continents
+            </button>
+          </div>
           <div className="query-preview">
             <h2>GraphQL Query Preview</h2>
-            <div className="query-preview-code first">{"{"}</div>
-            <div className="query-preview-code second">countries {"{"}</div>
+            <div className="query-preview-code nest-1">{"{"}</div>
+            <div className="query-preview-code nest-2">countries {"{"}</div>
             {queryContents.map((query) => {
-              return <div className="query-preview-code third">{query}</div>;
+              return <div className="query-preview-code nest-3">{query}</div>;
             })}
-            <div className="query-preview-code second">{"}"}</div>
-            <div className="query-preview-code first">{"}"}</div>
+            <div className="query-preview-code nest-2">{"}"}</div>
+            <div className="query-preview-code nest-1">{"}"}</div>
           </div>
         </div>
         <div className="listOfCountries">
           {loading && <h3>Data is loading</h3>}
           {error && <h3>{error.message}</h3>}
           {data &&
-            data.countries.map(function (country, key) {
-              console.log(country);
+            data.countries.map(function (object, key) {
               return (
                 <div className="country-card" key={key}>
-                  <h2>{country.name}</h2>
-                  <h4>Capital: {country.capital}</h4>
-                  <h3>Currency: {country.currency}</h3>
-                  <p>
-                    {country.languages.map((language) => {
-                      return <div>{language.name}</div>;
-                    })}
-                  </p>
+                  <h2>{object.name}</h2>
                 </div>
               );
             })}
